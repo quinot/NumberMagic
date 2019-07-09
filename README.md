@@ -46,3 +46,9 @@ Segments numbering:
 LedControl          | 0  | 1 | 2 | 3 | 4 | 5 | 6 | 7 
 --------------------|----|---|---|---|---|---|---|---
 MAX7219, 5641AS-1   | DP | A | B | C | D | E | F | G 
+
+Data pins multiplexing
+----------------------
+
+Since we never write simultaneously to the LCD and the
+LED driver, they can share a data pin.
