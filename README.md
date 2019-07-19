@@ -12,7 +12,7 @@ Keypad
 LCD 1602
 --------
 
-16 columnn, 2 row LCD display driven directly from GPIO pins.
+16 column, 2 row LCD display driven directly from GPIO pins.
 To save pins, R/W is clamped to ground, and we use four-bit
 mode. (Higher end modules use SPI instead).
 
@@ -22,7 +22,7 @@ Seven segment LED display
 http://wayoda.github.io/LedControl/pages/software
 
 The four-digit, seven-segment LED display is a 5641AS-1
-common cathod unit. The forward current is 1.8V, and the
+common cathode unit. The forward current is 1.8V, and the
 desired current is 20 mA (absolute maximum 30 mA).
 
 It is driven by a MAX7219. Rset is set to 26.7 kOhm,
