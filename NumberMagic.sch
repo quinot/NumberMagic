@@ -1,0 +1,1 @@
+/home/thomas/EAGLE/projects/NumberMagic/NumberMagic.sch
