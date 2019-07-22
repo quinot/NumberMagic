@@ -29,11 +29,12 @@ LiquidCrystal lcd(LCD_RS, LCD_ENABLE, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
 
 #include <LedControl.h>
 
-#define MAX_DATA 14
-#define MAX_CLOCK 12
-#define MAX_CS 13
+// Using hardware SPI
+// #define MAX_DATA 11
+// #define MAX_CLOCK 13
+#define MAX_CS 10
 
-LedControl lc(MAX_DATA, MAX_CLOCK, MAX_CS);
+LedControl lc(MAX_CS);
 
 void setup() {
   int snake[][2] = {{0,4},{1,4},{2,4},{3,4},
