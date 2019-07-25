@@ -12,9 +12,8 @@ Keypad
 LCD 1602
 --------
 
-16 column, 2 row LCD display driven directly from GPIO pins.
-To save pins, R/W is clamped to ground, and we use four-bit
-mode. (Higher end modules use SPI instead).
+16 column, 2 row LCD display driven directly through a 74HC595
+shift register.
 
 Seven segment LED display
 -------------------------
@@ -50,5 +49,5 @@ MAX7219, 5641AS-1   | DP | A | B | C | D | E | F | G
 Data pins multiplexing
 ----------------------
 
-Since we never write simultaneously to the LCD and the
-LED driver, they can share a data pin.
+We never write simultaneously to the LCD and the LED driver.
+They share the hardware SPI data (MOSI, 11) and clock (13) pins.

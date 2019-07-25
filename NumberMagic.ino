@@ -16,24 +16,14 @@ Keypad k = Keypad(makeKeymap(keys), rowPins, colPins, rows, cols);
 
 // Ouput
 
-#include <LiquidCrystal.h>
+#include <ShiftedLCD.h>
 
-#define LCD_RS 18
-#define LCD_ENABLE 19
-#define LCD_D4 14
-#define LCD_D5 15
-#define LCD_D6 16
-#define LCD_D7 17
-
-LiquidCrystal lcd(LCD_RS, LCD_ENABLE, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
+#define LCD_CS 14
+LiquidCrystal lcd(14);
 
 #include <LedControl.h>
 
-// Using hardware SPI
-// #define MAX_DATA 11
-// #define MAX_CLOCK 13
-#define MAX_CS 10
-
+#define MAX_CS 15
 LedControl lc(MAX_CS);
 
 void setup() {
@@ -42,6 +32,8 @@ void setup() {
                     {3,1},{2,1},{1,1},{0,1},
                     {0,6},{0,5}};
   int snakeidx = 0;
+  pinMode(LCD_CS, OUTPUT);
+  pinMode(MAX_CS, OUTPUT);
 
   lcd.begin(16, 2);
   lcd.clear();
