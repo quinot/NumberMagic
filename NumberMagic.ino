@@ -10,21 +10,34 @@ char keys[rows][cols] = {
   {'7','8','9', 'C'},
   {'*','0','#', 'D'}
 };
+#ifdef ARDUINO_ARCH_STM32
+byte rowPins[rows] = {PB5,PB4,PA9,PA8}; //connect to the row pinouts of the keypad
+byte colPins[cols] = {PB15, PB14, PB13, PB12}; //connect to the column pinouts of the keypad
+#else
 byte rowPins[rows] = {9,8,7,6}; //connect to the row pinouts of the keypad
 byte colPins[cols] = {5,4,3,2}; //connect to the column pinouts of the keypad
+#endif
 Keypad k = Keypad(makeKeymap(keys), rowPins, colPins, rows, cols);
 
 // Ouput
 
 #include <ShiftedLCD.h>
 
+#ifdef ARDUINO_ARCH_STM32
+#define LCD_CS PB6
+#else
 #define LCD_CS 14
-LiquidCrystal lcd(14);
+#endif
+LiquidCrystal lcd(LCD_CS);
 
 #include <LedControl.h>
 
+#ifdef ARDUINO_ARCH_STM32
+#define MAX_CS PB7
+#else
 #define MAX_CS 15
-LedControl lc(MAX_CS);
+#endif
+LedControl *lc;
 
 void setup() {
   int snake[][2] = {{0,4},{1,4},{2,4},{3,4},
@@ -35,29 +48,34 @@ void setup() {
   pinMode(LCD_CS, OUTPUT);
   pinMode(MAX_CS, OUTPUT);
 
+  #ifdef ARDUINO_ARCH_STM32
+  SPI.begin(1);
+  #endif
+
+  lc = new LedControl(MAX_CS);
   lcd.begin(16, 2);
   lcd.clear();
   lcd.print("Appuie sur une");
   lcd.setCursor(0, 1);
-  lcd.print("touche et joue");
+  lcd.print("touche et joue!");
 
   //wake up the MAX72XX from power-saving mode
-  lc.shutdown(0,false);
+  lc->shutdown(0,false);
   //set a medium brightness for the Leds
-  lc.setIntensity(0,8);
+  lc->setIntensity(0,8);
 
   while (k.getKey() == NO_KEY) {
     lcd.setCursor(0, 1);
     // lcd.print(String("I") + snakeidx + " C" + snake[snakeidx][0] + " R" + snake[snakeidx][1] + "    ");
-    lc.setLed(0, snake[snakeidx][0], snake[snakeidx][1], true);
+    lc->setLed(0, snake[snakeidx][0], snake[snakeidx][1], true);
     delay(200);
-    lc.setLed(0, snake[snakeidx][0], snake[snakeidx][1], false);
+    lc->setLed(0, snake[snakeidx][0], snake[snakeidx][1], false);
     if (++snakeidx >= sizeof snake / sizeof snake[0])
       snakeidx = 0;
   }
 
   randomSeed(millis());
-  lc.clearDisplay(0);
+  lc->clearDisplay(0);
 
 }
 
@@ -68,10 +86,10 @@ char ch;
 int score = 0;
 
 void show(int score, int tries) {
-          lc.setDigit(0, 0, (score / 1000) % 10, false);
-          lc.setDigit(0, 1, (score /  100) % 10, tries >= 3);
-          lc.setDigit(0, 2, (score /   10) % 10, tries >= 2);
-          lc.setDigit(0, 3, (score       ) % 10, tries >= 1);
+          lc->setDigit(0, 0, (score / 1000) % 10, false);
+          lc->setDigit(0, 1, (score /  100) % 10, tries >= 3);
+          lc->setDigit(0, 2, (score /   10) % 10, tries >= 2);
+          lc->setDigit(0, 3, (score       ) % 10, tries >= 1);
 }
 
 void loop() {
