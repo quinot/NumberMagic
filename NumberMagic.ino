@@ -94,8 +94,9 @@ void show(int score, int tries) {
 
 void loop() {
   if (st == 0) {
-    a = random(2, 9);
-    b = random(2, 9);
+    // random low bound is inclusive, high bound is exclusive
+    a = random(2, 10);
+    b = random(2, 10);
     tries = 3;
     st = 1;
     show(score, tries);
