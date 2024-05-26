@@ -21,6 +21,12 @@ Keypad k = Keypad(makeKeymap(keys), rowPins, colPins, rows, cols);
 
 // Ouput
 
+#define LCD_I2C
+#ifdef LCD_I2C
+#include <LiquidCrystal_I2C.h>
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+#else
 #include <ShiftedLCD.h>
 
 #ifdef ARDUINO_ARCH_STM32
@@ -29,6 +35,7 @@ Keypad k = Keypad(makeKeymap(keys), rowPins, colPins, rows, cols);
 #define LCD_CS 14
 #endif
 LiquidCrystal lcd(LCD_CS);
+#endif
 
 #include <LedControl.h>
 
@@ -45,7 +52,9 @@ void setup() {
                     {3,1},{2,1},{1,1},{0,1},
                     {0,6},{0,5}};
   int snakeidx = 0;
+  #ifndef LCD_I2C
   pinMode(LCD_CS, OUTPUT);
+  #endif
   pinMode(MAX_CS, OUTPUT);
 
   #ifdef ARDUINO_ARCH_STM32
@@ -54,6 +63,9 @@ void setup() {
 
   lc = new LedControl(MAX_CS);
   lcd.begin(16, 2);
+  #ifdef LCD_I2C
+  lcd.backlight();
+  #endif
   lcd.clear();
   lcd.print("Appuie sur une");
   lcd.setCursor(0, 1);

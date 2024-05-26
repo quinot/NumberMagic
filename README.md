@@ -12,8 +12,8 @@ Keypad
 LCD 1602
 --------
 
-16 column, 2 row LCD display driven directly through a 74HC595
-shift register.
+16 column, 2 row LCD display driven through an I2C module (previous version, saved on the `LCD_shifted branch`,
+used a 74HC595 shift register instead).
 
 Seven segment LED display
 -------------------------
@@ -42,9 +42,9 @@ Segments numbering:
       4
 ```
 
-LedControl          | 0  | 1 | 2 | 3 | 4 | 5 | 6 | 7 
+LedControl          | 0  | 1 | 2 | 3 | 4 | 5 | 6 | 7
 --------------------|----|---|---|---|---|---|---|---
-MAX7219, 5641AS-1   | DP | A | B | C | D | E | F | G 
+MAX7219, 5641AS-1   | DP | A | B | C | D | E | F | G
 
 Data pins multiplexing
 ----------------------
